@@ -1,5 +1,7 @@
 # Diários — Jogos do dia
 
+**https://gabrieltbandeira.github.io/daily-games-catalog/**
+
 > Todos os seus jogos diários favoritos em um só lugar.
 
 Agregador de links para jogos diários estilo Wordle: uma lista curada com Termo, Wordle, Globle, Contexto e mais de 70 outros jogos organizados por categoria, com filtros, busca e persistência local — sem conta, sem rastreamento.
