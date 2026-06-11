@@ -37,6 +37,20 @@ const EXTRAS = [
         description: 'Todas as promoções ativas na Steam agora.',
         icon: '🛒',
       },
+      {
+        id: 'comparajogos',
+        name: 'ComparaJogos',
+        url: 'https://www.comparajogos.com.br',
+        description: 'Comparador de preços de jogos no Brasil.',
+        icon: '♟️',
+      },
+      {
+        id: 'dekudeals',
+        name: 'DekuDeals',
+        url: 'https://www.dekudeals.com',
+        description: 'Histórico e alertas de promoções na Nintendo eShop.',
+        icon: '🎮',
+      },
     ],
   },
 ]
