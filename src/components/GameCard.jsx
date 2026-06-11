@@ -63,6 +63,7 @@ const LANG_LABEL = { 'pt-BR': 'PT', en: 'EN', multi: '🌐' }
 export default function GameCard({ game, categories, onStateChange }) {
   const [played, setPlayed] = useState(() => getPlayedToday(game.id))
   const [favorited, setFavorited] = useState(() => isFavorite(game.id))
+  const [flipping, setFlipping] = useState(false)
   const category = categories.find(c => c.id === game.category)
 
   function handlePlayedClick(e) {
@@ -83,6 +84,7 @@ export default function GameCard({ game, categories, onStateChange }) {
     e.stopPropagation()
     const next = toggleFavorite(game.id)
     setFavorited(next)
+    setFlipping(true)
     onStateChange?.()
   }
 
@@ -91,6 +93,7 @@ export default function GameCard({ game, categories, onStateChange }) {
       href={game.url}
       target="_blank"
       rel="noopener noreferrer"
+      role="listitem"
       className={`game-card${played ? ' game-card--played' : ''}`}
       aria-label={`Jogar ${game.name} (abre em nova aba)`}
     >
@@ -105,7 +108,13 @@ export default function GameCard({ game, categories, onStateChange }) {
             aria-pressed={favorited}
             title={favorited ? 'Remover dos favoritos' : 'Favoritar'}
           >
-            {favorited ? '★' : '☆'}
+            <span
+              className={`fav-icon${flipping ? ' fav-icon--flip' : ''}`}
+              onAnimationEnd={() => setFlipping(false)}
+              aria-hidden="true"
+            >
+              {favorited ? '★' : '☆'}
+            </span>
           </button>
 
           <button

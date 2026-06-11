@@ -82,6 +82,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <a href="#main-content" className="skip-link">Pular para o conteúdo</a>
       <Header search={filters.search} onSearchChange={handleSearchChange} />
 
       <FilterBar
@@ -93,7 +94,7 @@ export default function App() {
         totalCount={ALL_GAMES.length}
       />
 
-      <main className="main">
+      <main className="main" id="main-content">
         <div className="container">
 
           {noFiltersActive && favoriteGames.length > 0 && (
@@ -102,7 +103,7 @@ export default function App() {
                 <h2 className="section-title">★ Seus Favoritos</h2>
                 <span className="section-count">{favoriteGames.length} jogos</span>
               </div>
-              <div className="games-grid">
+              <div className="games-grid" role="list">
                 {favoriteGames.map(game => (
                   <GameCard
                     key={game.id}
@@ -123,7 +124,7 @@ export default function App() {
                   <span className="section-count">{sortedGames.length} jogos</span>
                 </div>
               )}
-              <div className="games-grid">
+              <div className="games-grid" role="list">
                 {sortedGames.map(game => (
                   <GameCard
                     key={game.id}

@@ -1,10 +1,20 @@
+.filter-bar__sentinel {
+  height: 1px;
+  pointer-events: none;
+}
+
 .filter-bar {
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  box-shadow: none;
+  transition: box-shadow 200ms ease;
+}
+
+.filter-bar--scrolled {
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
 }
 
 .filter-bar__inner {

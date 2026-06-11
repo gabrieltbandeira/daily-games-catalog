@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import './FilterBar.css'
 
 const LANG_OPTIONS = [
@@ -9,6 +10,19 @@ const LANG_OPTIONS = [
 export default function FilterBar({ categories, tags, filters, onFiltersChange, resultCount, totalCount }) {
   const { categories: selCats, tags: selTags, lang: selLang } = filters
   const hasFilters = selCats.length > 0 || selTags.length > 0 || selLang.length > 0
+  const sentinelRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current
+    if (!sentinel) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [])
 
   function toggle(key, value) {
     const current = filters[key]
@@ -23,7 +37,9 @@ export default function FilterBar({ categories, tags, filters, onFiltersChange, 
   }
 
   return (
-    <div className="filter-bar">
+    <>
+      <div ref={sentinelRef} className="filter-bar__sentinel" aria-hidden="true" />
+      <div className={`filter-bar${scrolled ? ' filter-bar--scrolled' : ''}`}>
       <div className="container filter-bar__inner">
 
         <div className="filter-group">
@@ -80,5 +96,6 @@ export default function FilterBar({ categories, tags, filters, onFiltersChange, 
 
       </div>
     </div>
+    </>
   )
 }
