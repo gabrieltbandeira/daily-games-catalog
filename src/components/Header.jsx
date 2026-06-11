@@ -1,3 +1,4 @@
+import ThemeToggle from './ThemeToggle'
 import './Header.css'
 
 export default function Header({ search, onSearchChange }) {
@@ -44,6 +45,8 @@ export default function Header({ search, onSearchChange }) {
             )}
           </div>
         </div>
+
+        <ThemeToggle />
       </div>
     </header>
   )

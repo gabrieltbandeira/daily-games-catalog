@@ -1,8 +1,8 @@
 import './FilterBar.css'
 
 const LANG_OPTIONS = [
-  { id: 'pt-BR', label: '🇧🇷 PT' },
-  { id: 'en',    label: '🇺🇸 EN' },
+  { id: 'pt-BR', label: 'PT-BR' },
+  { id: 'en',    label: 'English' },
   { id: 'multi', label: '🌐 Multi' },
 ]
 
