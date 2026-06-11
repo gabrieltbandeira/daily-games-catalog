@@ -230,6 +230,8 @@
   flex-wrap: nowrap;
   overflow: hidden;
   margin-top: 0;
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
 }
 
 /* List mode actions (always-visible, shown on hover) */
@@ -244,6 +246,19 @@
 .game-card--list:hover .game-card__list-actions,
 .game-card--list:focus-within .game-card__list-actions {
   opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .game-card--list .game-card__header {
+    min-width: 100px;
+    max-width: 170px;
+  }
+}
+
+@media (hover: none) {
+  .game-card__list-actions {
+    opacity: 1;
+  }
 }
 
 .game-card--list .game-card__btn {
