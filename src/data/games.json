@@ -148,17 +148,6 @@
       "frequency": "daily"
     },
     {
-      "id": "nyt-letterboxed",
-      "name": "Letter Boxed",
-      "url": "https://www.nytimes.com/games/letter-boxed",
-      "description": "Use todas as 12 letras das bordas do quadrado para formar palavras.",
-      "lang": "en",
-      "category": "palavras",
-      "tags": ["letras", "ortografia"],
-      "popular": true,
-      "frequency": "daily"
-    },
-    {
       "id": "quordle",
       "name": "Quordle",
       "url": "https://www.merriam-webster.com/games/quordle",
@@ -799,7 +788,7 @@
     {
       "id": "who-are-ya",
       "name": "Who Are Ya?",
-      "url": "https://www.whoareya.io",
+      "url": "https://playfootball.games/who-are-ya/",
       "description": "Adivinhe o jogador de futebol do dia pela silhueta e dicas progressivas.",
       "lang": "en",
       "category": "esportes",
