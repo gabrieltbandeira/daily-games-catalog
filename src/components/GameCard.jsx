@@ -14,7 +14,7 @@ function getFaviconUrl(url) {
 function getAvatarColor(id) {
   let hash = 0
   for (let i = 0; i < id.length; i++) hash = id.charCodeAt(i) + ((hash << 5) - hash)
-  return `hsl(${Math.abs(hash) % 360}, 60%, 50%)`
+  return `hsl(${Math.abs(hash) % 360}, 50%, 48%)`
 }
 
 function GameThumbnail({ game }) {
@@ -60,11 +60,10 @@ function GameThumbnail({ game }) {
 
 const LANG_LABEL = { 'pt-BR': 'PT', en: 'EN', multi: '🌐' }
 
-export default function GameCard({ game, categories, onStateChange }) {
+export default function GameCard({ game, categories, onStateChange, viewMode = 'grid' }) {
   const [played, setPlayed] = useState(() => getPlayedToday(game.id))
   const [favorited, setFavorited] = useState(() => isFavorite(game.id))
   const [flipping, setFlipping] = useState(false)
-  const category = categories.find(c => c.id === game.category)
 
   function handlePlayedClick(e) {
     e.preventDefault()
@@ -88,45 +87,55 @@ export default function GameCard({ game, categories, onStateChange }) {
     onStateChange?.()
   }
 
+  const isList = viewMode === 'list'
+
+  const favBtn = (
+    <button
+      className={`game-card__btn game-card__btn--fav${favorited ? ' is-active' : ''}`}
+      onClick={handleFavoriteClick}
+      aria-label={favorited ? `Remover ${game.name} dos favoritos` : `Favoritar ${game.name}`}
+      aria-pressed={favorited}
+      title={favorited ? 'Remover dos favoritos' : 'Favoritar'}
+    >
+      <span
+        className={`fav-icon${flipping ? ' fav-icon--flip' : ''}`}
+        onAnimationEnd={() => setFlipping(false)}
+        aria-hidden="true"
+      >
+        {favorited ? '★' : '☆'}
+      </span>
+    </button>
+  )
+
+  const playedBtn = (
+    <button
+      className={`game-card__btn game-card__btn--played${played ? ' is-active' : ''}`}
+      onClick={handlePlayedClick}
+      aria-label={played ? `Desmarcar ${game.name} como jogado hoje` : `Marcar ${game.name} como jogado hoje`}
+      aria-pressed={played}
+      title={played ? 'Desmarcar' : 'Joguei hoje'}
+    >
+      {played ? '✓' : '○'}
+    </button>
+  )
+
   return (
     <a
       href={game.url}
       target="_blank"
       rel="noopener noreferrer"
       role="listitem"
-      className={`game-card${played ? ' game-card--played' : ''}`}
+      className={`game-card${played ? ' game-card--played' : ''}${isList ? ' game-card--list' : ''}`}
       aria-label={`Jogar ${game.name} (abre em nova aba)`}
     >
       <div className="game-card__thumb-wrap">
         <GameThumbnail game={game} />
-
-        <div className="game-card__actions">
-          <button
-            className={`game-card__btn game-card__btn--fav${favorited ? ' is-active' : ''}`}
-            onClick={handleFavoriteClick}
-            aria-label={favorited ? `Remover ${game.name} dos favoritos` : `Favoritar ${game.name}`}
-            aria-pressed={favorited}
-            title={favorited ? 'Remover dos favoritos' : 'Favoritar'}
-          >
-            <span
-              className={`fav-icon${flipping ? ' fav-icon--flip' : ''}`}
-              onAnimationEnd={() => setFlipping(false)}
-              aria-hidden="true"
-            >
-              {favorited ? '★' : '☆'}
-            </span>
-          </button>
-
-          <button
-            className={`game-card__btn game-card__btn--played${played ? ' is-active' : ''}`}
-            onClick={handlePlayedClick}
-            aria-label={played ? `Desmarcar ${game.name} como jogado hoje` : `Marcar ${game.name} como jogado hoje`}
-            aria-pressed={played}
-            title={played ? 'Desmarcar' : 'Joguei hoje'}
-          >
-            {played ? '✓' : '○'}
-          </button>
-        </div>
+        {!isList && (
+          <div className="game-card__actions">
+            {favBtn}
+            {playedBtn}
+          </div>
+        )}
       </div>
 
       <div className="game-card__body">
@@ -135,20 +144,23 @@ export default function GameCard({ game, categories, onStateChange }) {
           <span className="game-card__lang">{LANG_LABEL[game.lang]}</span>
         </div>
 
-        <p className="game-card__desc">{game.description}</p>
+        {!isList && <p className="game-card__desc">{game.description}</p>}
 
         <div className="game-card__tags">
-          {game.tags.slice(0, 3).map(tagId => (
-            <span
-              key={tagId}
-              className="game-card__tag"
-              style={category ? { '--tag-color': category.color } : {}}
-            >
+          {game.tags.slice(0, isList ? 2 : 3).map(tagId => (
+            <span key={tagId} className="game-card__tag">
               {tagId.replace(/-/g, ' ')}
             </span>
           ))}
         </div>
       </div>
+
+      {isList && (
+        <div className="game-card__list-actions">
+          {favBtn}
+          {playedBtn}
+        </div>
+      )}
     </a>
   )
 }

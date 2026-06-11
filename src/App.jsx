@@ -42,6 +42,7 @@ function sortWithState(games, favorites, played) {
 export default function App() {
   const [filters, setFilters] = useState(() => readFiltersFromURL())
   const [cardState, setCardState] = useState(0)
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('viewMode') ?? 'grid')
   const debouncedSearch = useDebounce(filters.search, 300)
 
   const activeFilters = useMemo(() => ({
@@ -52,6 +53,10 @@ export default function App() {
   useEffect(() => {
     writeFiltersToURL(activeFilters)
   }, [activeFilters])
+
+  useEffect(() => {
+    localStorage.setItem('viewMode', viewMode)
+  }, [viewMode])
 
   const favorites = useMemo(() => getAllFavorites(), [cardState])
   const played = useMemo(() => getAllPlayed(), [cardState])
@@ -74,11 +79,14 @@ export default function App() {
   const handleFiltersChange = useCallback((next) => setFilters(next), [])
   const handleSearchChange = useCallback((value) => setFilters(prev => ({ ...prev, search: value })), [])
   const handleCardStateChange = useCallback(() => setCardState(n => n + 1), [])
+  const handleViewModeChange = useCallback((mode) => setViewMode(mode), [])
 
   const noFiltersActive = activeFilters.categories.length === 0 &&
     activeFilters.tags.length === 0 &&
     activeFilters.lang.length === 0 &&
     !activeFilters.search
+
+  const gridClass = `games-grid${viewMode === 'list' ? ' games-grid--list' : ''}`
 
   return (
     <div className="app">
@@ -92,24 +100,27 @@ export default function App() {
         onFiltersChange={handleFiltersChange}
         resultCount={filteredGames.length}
         totalCount={ALL_GAMES.length}
+        viewMode={viewMode}
+        onViewModeChange={handleViewModeChange}
       />
 
       <main className="main" id="main-content">
         <div className="container">
 
           {noFiltersActive && favoriteGames.length > 0 && (
-            <section className="favorites-section" aria-label="Seus favoritos">
-              <div className="section-header">
-                <h2 className="section-title">★ Seus Favoritos</h2>
-                <span className="section-count">{favoriteGames.length} jogos</span>
+            <section className="section" aria-label="Seus favoritos">
+              <div className="section-sep">
+                <span className="section-sep__label">★ Seus Favoritos</span>
+                <span className="section-sep__count">{favoriteGames.length}</span>
               </div>
-              <div className="games-grid" role="list">
+              <div className={gridClass} role="list">
                 {favoriteGames.map(game => (
                   <GameCard
                     key={game.id}
                     game={game}
                     categories={categories}
                     onStateChange={handleCardStateChange}
+                    viewMode={viewMode}
                   />
                 ))}
               </div>
@@ -117,20 +128,21 @@ export default function App() {
           )}
 
           {sortedGames.length > 0 ? (
-            <section aria-label="Jogos diários">
+            <section className="section" aria-label="Jogos diários">
               {(noFiltersActive && favoriteGames.length > 0) && (
-                <div className="section-header">
-                  <h2 className="section-title">Todos os jogos</h2>
-                  <span className="section-count">{sortedGames.length} jogos</span>
+                <div className="section-sep">
+                  <span className="section-sep__label">Todos os jogos</span>
+                  <span className="section-sep__count">{sortedGames.length}</span>
                 </div>
               )}
-              <div className="games-grid" role="list">
+              <div className={gridClass} role="list">
                 {sortedGames.map(game => (
                   <GameCard
                     key={game.id}
                     game={game}
                     categories={categories}
                     onStateChange={handleCardStateChange}
+                    viewMode={viewMode}
                   />
                 ))}
               </div>

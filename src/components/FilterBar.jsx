@@ -7,7 +7,7 @@ const LANG_OPTIONS = [
   { id: 'multi', label: '🌐 Multi' },
 ]
 
-export default function FilterBar({ categories, tags, filters, onFiltersChange, resultCount, totalCount }) {
+export default function FilterBar({ categories, tags, filters, onFiltersChange, resultCount, totalCount, viewMode, onViewModeChange }) {
   const { categories: selCats, tags: selTags, lang: selLang } = filters
   const hasFilters = selCats.length > 0 || selTags.length > 0 || selLang.length > 0
   const sentinelRef = useRef(null)
@@ -50,8 +50,7 @@ export default function FilterBar({ categories, tags, filters, onFiltersChange, 
               return (
                 <button
                   key={cat.id}
-                  className={`chip ${active ? 'chip--active' : ''}`}
-                  style={{ '--chip-color': cat.color }}
+                  className={`chip${active ? ' chip--active' : ''}`}
                   onClick={() => toggle('categories', cat.id)}
                   aria-pressed={active}
                 >
@@ -70,7 +69,7 @@ export default function FilterBar({ categories, tags, filters, onFiltersChange, 
               return (
                 <button
                   key={opt.id}
-                  className={`chip ${active ? 'chip--active' : ''}`}
+                  className={`chip${active ? ' chip--active' : ''}`}
                   onClick={() => toggle('lang', opt.id)}
                   aria-pressed={active}
                 >
@@ -89,9 +88,36 @@ export default function FilterBar({ categories, tags, filters, onFiltersChange, 
           </span>
           {hasFilters && (
             <button className="chip chip--clear" onClick={clear}>
-              Limpar filtros ×
+              Limpar ×
             </button>
           )}
+          <div className="view-toggle" role="group" aria-label="Modo de visualização">
+            <button
+              className={`view-toggle__btn${viewMode === 'grid' ? ' is-active' : ''}`}
+              onClick={() => onViewModeChange('grid')}
+              aria-pressed={viewMode === 'grid'}
+              title="Grade"
+            >
+              <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="1" y="1" width="6" height="6" rx="1"/>
+                <rect x="9" y="1" width="6" height="6" rx="1"/>
+                <rect x="1" y="9" width="6" height="6" rx="1"/>
+                <rect x="9" y="9" width="6" height="6" rx="1"/>
+              </svg>
+            </button>
+            <button
+              className={`view-toggle__btn${viewMode === 'list' ? ' is-active' : ''}`}
+              onClick={() => onViewModeChange('list')}
+              aria-pressed={viewMode === 'list'}
+              title="Lista"
+            >
+              <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="1" y="2" width="14" height="2" rx="1"/>
+                <rect x="1" y="7" width="14" height="2" rx="1"/>
+                <rect x="1" y="12" width="14" height="2" rx="1"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
       </div>

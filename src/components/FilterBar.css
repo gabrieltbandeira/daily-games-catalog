@@ -4,8 +4,8 @@
 }
 
 .filter-bar {
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background-color: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -14,7 +14,7 @@
 }
 
 .filter-bar--scrolled {
-  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  box-shadow: 0 4px 24px rgba(0,0,0,.22);
 }
 
 .filter-bar__inner {
@@ -33,11 +33,12 @@
 }
 
 .filter-group__label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
   white-space: nowrap;
   min-width: 64px;
 }
@@ -52,57 +53,96 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 12px;
+  gap: 5px;
+  padding: 4px 11px;
   border-radius: var(--radius-full);
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 500;
-  border: 1.5px solid var(--color-border);
-  background-color: var(--color-surface-alt);
-  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-elevated);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: background-color var(--transition), color var(--transition),
-              border-color var(--transition), transform var(--transition);
+              border-color var(--transition);
   white-space: nowrap;
 }
 
 .chip:hover {
-  border-color: var(--chip-color, var(--color-accent));
-  color: var(--chip-color, var(--color-accent));
+  border-color: var(--border-strong);
+  color: var(--text-primary);
 }
 
 .chip:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent-green);
   outline-offset: 2px;
 }
 
 .chip--active {
-  background-color: color-mix(in srgb, var(--chip-color, var(--color-accent)) 15%, transparent);
-  border-color: var(--chip-color, var(--color-accent));
-  color: var(--chip-color, var(--color-accent));
-  font-weight: 600;
+  background-color: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--accent-green-text);
+  font-weight: 500;
+}
+
+.chip--active:hover {
+  opacity: 0.9;
 }
 
 .chip--clear {
-  border-color: var(--color-border);
-  color: var(--color-text-muted);
-  --chip-color: #ef4444;
+  color: var(--text-muted);
 }
 
 .chip--clear:hover {
-  border-color: #ef4444;
-  color: #ef4444;
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
 }
 
 /* Footer row */
 .filter-bar__footer {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .filter-bar__count {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+/* View toggle */
+.view-toggle {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+}
+
+.view-toggle__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 24px;
+  border-radius: calc(var(--radius-sm) - 1px);
+  color: var(--text-muted);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.view-toggle__btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.view-toggle__btn:hover {
+  color: var(--text-secondary);
+}
+
+.view-toggle__btn.is-active {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
 }
