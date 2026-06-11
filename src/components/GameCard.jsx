@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getPlayedToday, setPlayedToday, clearPlayedToday, isFavorite, toggleFavorite } from '../lib/storage'
 import './GameCard.css'
 
 function getFaviconUrl(url) {
@@ -59,19 +60,64 @@ function GameThumbnail({ game }) {
 
 const LANG_LABEL = { 'pt-BR': 'PT', en: 'EN', multi: '🌐' }
 
-export default function GameCard({ game, categories }) {
+export default function GameCard({ game, categories, onStateChange }) {
+  const [played, setPlayed] = useState(() => getPlayedToday(game.id))
+  const [favorited, setFavorited] = useState(() => isFavorite(game.id))
   const category = categories.find(c => c.id === game.category)
+
+  function handlePlayedClick(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (played) {
+      clearPlayedToday(game.id)
+      setPlayed(false)
+    } else {
+      setPlayedToday(game.id)
+      setPlayed(true)
+    }
+    onStateChange?.()
+  }
+
+  function handleFavoriteClick(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    const next = toggleFavorite(game.id)
+    setFavorited(next)
+    onStateChange?.()
+  }
 
   return (
     <a
       href={game.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="game-card"
+      className={`game-card${played ? ' game-card--played' : ''}`}
       aria-label={`Jogar ${game.name} (abre em nova aba)`}
     >
       <div className="game-card__thumb-wrap">
         <GameThumbnail game={game} />
+
+        <div className="game-card__actions">
+          <button
+            className={`game-card__btn game-card__btn--fav${favorited ? ' is-active' : ''}`}
+            onClick={handleFavoriteClick}
+            aria-label={favorited ? `Remover ${game.name} dos favoritos` : `Favoritar ${game.name}`}
+            aria-pressed={favorited}
+            title={favorited ? 'Remover dos favoritos' : 'Favoritar'}
+          >
+            {favorited ? '★' : '☆'}
+          </button>
+
+          <button
+            className={`game-card__btn game-card__btn--played${played ? ' is-active' : ''}`}
+            onClick={handlePlayedClick}
+            aria-label={played ? `Desmarcar ${game.name} como jogado hoje` : `Marcar ${game.name} como jogado hoje`}
+            aria-pressed={played}
+            title={played ? 'Desmarcar' : 'Joguei hoje'}
+          >
+            {played ? '✓' : '○'}
+          </button>
+        </div>
       </div>
 
       <div className="game-card__body">
