@@ -6,6 +6,7 @@ import GameCard from './components/GameCard'
 import { filterGames } from './lib/filters'
 import { readFiltersFromURL, writeFiltersToURL } from './lib/urlState'
 import { getAllFavorites, getAllPlayed } from './lib/storage'
+import ExtrasSection from './components/ExtrasSection'
 import './styles/global.css'
 import './App.css'
 
@@ -142,6 +143,8 @@ export default function App() {
 
         </div>
       </main>
+
+      <ExtrasSection />
 
       <footer className="footer">
         <div className="container">
