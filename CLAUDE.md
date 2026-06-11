@@ -69,3 +69,21 @@ Edite `src/data/games.json` adicionando uma entrada em `games[]`:
 ```
 
 O build valida automaticamente. Tags e categorias devem existir no JSON.
+
+## Melhorias futuras
+
+### Presets Compartilhados (Fase 8)
+
+Permitir que usuários salvem e compartilhem combinações de filtros via link.
+
+- **Backend**: Node.js + Hono + SQLite (ou JSON) em `server/`
+  - `GET /api/presets` — lista presets da comunidade
+  - `POST /api/presets { name, filters }` — cria preset (rate limit + sanitização)
+- **Frontend**: seção "Presets da Comunidade" aparece só se a API responder (graceful degradation)
+- **Docker**: adicionar serviço `api` no `docker-compose.yml`
+
+### Outras ideias
+- **PWA**: `manifest.json` + service worker para instalação no celular
+- **Estatísticas locais**: streak de visitas diárias (localStorage)
+- **Widget de ofertas**: integração com CheapShark API (top 5-10 deals, fallback para links estáticos)
+- **Página de jogo**: modal ou página dedicada com descrição expandida e histórico de "jogado"
