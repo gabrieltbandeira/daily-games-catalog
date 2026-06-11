@@ -4,8 +4,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-`daily-games-catalog` — a catalog of daily games (e.g. Wordle-style games). This repository is freshly initialized; update this file once the stack and structure are established.
+`daily-games-catalog` — site front-end agregador de jogos diários estilo Wordle (Termo, Wordle, Globle, etc.). Links para os originais, sem hospedar nenhum jogo.
+
+**Stack**: Vite + React + CSS customizado (sem Tailwind) + Zod (validação do catálogo)
 
 ## Getting started
 
-_Add build, dev server, lint, and test commands here once the project is scaffolded._
+```bash
+# Requer Node.js 22+ (instalado via nvm em ~/.nvm)
+export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh"
+
+npm install       # instalar dependências
+npm run dev       # servidor de desenvolvimento (http://localhost:5173)
+npm run build     # build de produção (roda validação Zod antes)
+npm run preview   # prévia do build de produção
+npm run lint      # linter ESLint
+```
+
+## Validação do catálogo
+
+```bash
+node src/data/validateGames.mjs   # valida games.json manualmente
+```
+
+O script roda automaticamente no `prebuild`. O build **falha** se `games.json` violar o schema.
+
+## Docker
+
+```bash
+docker compose up -d        # sobe em produção na porta 80
+PORT=3000 docker compose up -d   # porta customizada
+docker compose down         # para e remove o container
+docker compose logs -f web  # acompanhar logs
+```
+
+## Estrutura
+
+```
+src/
+  components/   # GameCard, Header, FilterBar, ThemeToggle, ExtrasSection
+  lib/          # filters.js, urlState.js, storage.js
+  styles/       # tokens.css (CSS vars light/dark), global.css
+  data/
+    games.json          # catálogo de jogos (source of truth)
+    validateGames.mjs   # validação Zod
+```
+
+## Adicionar um jogo ao catálogo
+
+Edite `src/data/games.json` adicionando uma entrada em `games[]`:
+
+```json
+{
+  "id": "kebab-case-unico",
+  "name": "Nome do Jogo",
+  "url": "https://...",
+  "description": "Descrição curta em pt-BR, máx 90 caracteres.",
+  "lang": "pt-BR|en|multi",
+  "category": "palavras|geografia|cinema-tv|musica|games-geek|logica-numeros|conhecimentos|esportes",
+  "tags": ["tag1", "tag2"],
+  "popular": false,
+  "frequency": "daily"
+}
+```
+
+O build valida automaticamente. Tags e categorias devem existir no JSON.
