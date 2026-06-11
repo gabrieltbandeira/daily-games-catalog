@@ -1,16 +1,42 @@
-# React + Vite
+# Diários — Jogos do dia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Todos os seus jogos diários favoritos em um só lugar.
 
-Currently, two official plugins are available:
+Agregador de links para jogos diários estilo Wordle: uma lista curada com Termo, Wordle, Globle, Contexto e mais de 70 outros jogos organizados por categoria, com filtros, busca e persistência local — sem conta, sem rastreamento.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Funcionalidades
 
-## React Compiler
+- **72 jogos** organizados em 8 categorias (Palavras, Geografia, Cinema & TV, Música, Games & Geek, Lógica & Números, Conhecimentos, Esportes)
+- **Filtros combinados** por categoria, idioma (PT-BR / EN / Multi) e busca textual — estado refletido na URL para links compartilháveis
+- **"Joguei hoje"** — marque os jogos concluídos no dia; reset automático à meia-noite
+- **Favoritos** — fixe seus jogos preferidos no topo da página; persiste entre sessões
+- **Tema escuro/claro** com detecção automática do sistema (`prefers-color-scheme`)
+- **Extras** — links para Board Game Arena, GG.deals, IsThereAnyDeal e SteamDB Sales
+- Sem cookies, sem login, sem rastreamento externo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tecnologias
 
-## Expanding the ESLint configuration
+- [Vite](https://vitejs.dev/) + [React 19](https://react.dev/)
+- CSS customizado com variáveis (sem Tailwind)
+- [Zod](https://zod.dev/) para validação do catálogo no build
+- [nginx](https://nginx.org/) + Docker para deploy
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Rodando localmente
+
+```bash
+# Requer Node.js 22+
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # build de produção (valida o catálogo antes)
+```
+
+## Docker
+
+```bash
+docker compose up -d        # http://localhost
+PORT=3000 docker compose up -d   # porta customizada
+```
+
+## Adicionando um jogo
+
+Edite `src/data/games.json` e adicione uma entrada em `games[]`. O build falha automaticamente se o schema for violado. Veja o formato completo em [CLAUDE.md](./CLAUDE.md).
