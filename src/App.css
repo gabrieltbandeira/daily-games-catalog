@@ -73,5 +73,13 @@
   text-align: center;
   font-family: var(--font-mono);
   font-size: 0.7rem;
+}
+
+.footer__copy {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.footer__disclaimer {
   color: var(--text-muted);
 }
