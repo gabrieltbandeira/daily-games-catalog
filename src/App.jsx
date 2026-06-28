@@ -161,7 +161,8 @@ export default function App() {
 
       <footer className="footer">
         <div className="container">
-          <p>Diários — nenhum jogo hospedado aqui, apenas links para os originais.</p>
+          <p className="footer__copy">© 2026 Gabriel Bandeira</p>
+          <p className="footer__disclaimer">Os jogos e marcas pertencem aos seus respectivos criadores · Nenhum jogo é hospedado aqui</p>
         </div>
       </footer>
     </div>
