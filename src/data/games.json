@@ -731,6 +731,17 @@
       "frequency": "daily"
     },
     {
+      "id": "artigo",
+      "name": "Artigo",
+      "url": "https://artigo.app/",
+      "description": "Descubra o artigo secreto da Wikipédia do dia com pistas progressivas.",
+      "lang": "pt-BR",
+      "category": "conhecimentos",
+      "tags": ["semantico", "trivia"],
+      "popular": false,
+      "frequency": "daily"
+    },
+    {
       "id": "redactle",
       "name": "Redactle",
       "url": "https://redactle.net/",
